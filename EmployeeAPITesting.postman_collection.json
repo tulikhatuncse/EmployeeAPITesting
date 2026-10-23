@@ -1,0 +1,402 @@
+{
+  "info": {
+    "_postman_id": "239b8642-1f89-402b-9d2c-51ec60aa4e79",
+    "name": "EmployeeAPITesting",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "25436819",
+    "_collection_link": "https://go.postman.co/collection/25436819-239b8642-1f89-402b-9d2c-51ec60aa4e79?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "EmployeeLoginWithValidCredentails",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "let jsonData = pm.response.json();\nempToken=jsonData.token;\npm.environment.set(\"Emptoken\",empToken)\n\npm.test(\"TC01 - Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\n\npm.test(\"TC02 - Status code is 200\", function () {\n    pm.response.to.have.status(201);\n});\n\npm.test(\"TC03 - Employe is logged in\",()=> {\n    pm.expect(jsonData.message).to.eql(\"Login successful\");\n});\n\npm.test(\"TC04 - Token is present\",()=> {\n    pm.expect(jsonData.token).to.be.a(\"string\").and.not.empty;\n});\n\npm.test(\"TC05 - Token is not empty\", () => {\n    pm.expect(jsonData.token).to.be.a(\"string\").and.not.empty;\n});\n\npm.test(\"TC06 - Token type is Bearer\", () => {\n    pm.expect(jsonData.tokenType).to.eql(\"Bearer\");\n});\n\npm.test (\"TC07 - Username is present\",()=>{\n    pm.expect(jsonData.user.username).to.eql(\"admin\");\n});\n\npm.test(\"TC08 - Email is present\", () => {\n    pm.expect(jsonData.user.email).to.eql(\"admin@company.com\");\n});\n\npm.test(\"TC09 - Role is present\", () => {\n    pm.expect(jsonData.user.role).to.eql(\"admin\");\n});\n\npm.test(\"TC10 - Role is not empty\", () => {\n    pm.expect(jsonData.user.role).to.not.be.empty;\n});\n\npm.test(\"TC11 - Login successful\",()=>{\n    pm.expect(jsonData.success).to.be.true;\n});\n\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "   {\r\n     \"username\": \"admin\",\r\n     \"password\": \"admin123\"\r\n   }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://crudapi-o7rr.onrender.com/api/auth/login",
+          "protocol": "https",
+          "host": [
+            "crudapi-o7rr",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "EmployeeLoginWithInvalidCredentails Copy",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "let jsonData = pm.response.json();\r\n\r\npm.test(\"TC12 - Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\npm.test(\"TC13 - Error message is 'Invalid credentials'\", function () {\r\n    pm.expect(jsonData.error).to.eql(\"Invalid credentials\");\r\n});\r\n\r\npm.test(\"TC14 - Login Unsuccessful\",()=>{\r\n    pm.expect(jsonData.error).to.be.eql(\"Invalid credentials\")\r\n});\r\n\r\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{Emptoken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "   {\r\n     \"username\": \"admin\",\r\n     \"password\": \"12345\"\r\n   }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://crudapi-o7rr.onrender.com/api/auth/login",
+          "protocol": "https",
+          "host": [
+            "crudapi-o7rr",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CreateEmployee",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "let jsonData = pm.response.json();\r\nlet EmpId=jsonData.data.id;\r\nlet EmpName = jsonData.data.firstName;\r\nlet EmpEmail = jsonData.data.email;\r\nlet EmpPhone = jsonData.data.phone;\r\nlet EmpDept = jsonData.data.department;\r\nlet EmpPos = jsonData.data.position;\r\nlet EmpSalary = jsonData.data.salary; \r\n\r\n\r\npm.environment.set(\"EmployeeId\", EmpId);\r\npm.environment.set(\"EmployName\", EmpName );\r\npm.environment.set(\"EmployEmail\", EmpEmail);\r\npm.environment.set(\"EmployPhone\", EmpPhone);\r\npm.environment.set(\"EmployDept\", EmpDept);\r\npm.environment.set(\"EmployPos\", EmpPos);\r\npm.environment.set(\"EmploySalary\", EmpSalary);\r\n\r\npm.test(\"TC15 - Employee ID is set\", function () {\r\n    pm.expect(EmpId).to.not.be.null;\r\n});\r\n\r\npm.test(\"TC16 - Employee ID is a Digit\",()=>{\r\n    pm.expect(EmpId).to.be.a('number');\r\n});\r\n\r\npm.test(\"TC17 - Employee firstName is set\",()=>{\r\n    pm.expect(\"firstName\").to.not.be.null;\r\n});\r\n\r\npm.test(\"TC18 - Employee lastName is set\",()=>{\r\n    pm.expect(\"lastName\").to.not.be.null;\r\n});\r\n\r\n\r\npm.test(\"TC19 - Employe name is a string\",()=>{\r\n    pm.expect(EmpName).to.be.a('string');\r\n});\r\n\r\npm.test(\"TC20- Email is Correct\",()=>{\r\n    pm.expect(EmpEmail).to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/);\r\n});\r\n\r\npm.test(\"TC21- Phone Number is only Digit\",()=>{\r\n  pm.expect(EmpPhone).to.match(/^[0-9]+$/);\r\n});\r\n\r\npm.test(\"TC22 - Employe Phone number contain 11 digit\",()=>{\r\n    pm.expect(EmpPhone).to.have.lengthOf(11);\r\n});\r\n\r\n\r\n\r\npm.test (\"TC23 - Employe department is set\",()=>{\r\n    pm.expect(EmpDept).to.be.a ('string')\r\n});\r\n\r\npm.test(\"TC24 - Employe position is set\",()=>{\r\n    pm.expect(EmpPos).to.be.a ('string')\r\n});\r\n\r\npm.test(\"TC25 - Employe salary is a number\",()=>{\r\n    pm.expect(EmpSalary).to.be.a ('number')\r\n});\r\n\r\npm.test(\"TC26 - Employe salary is greater than 0\",()=>{\r\n    pm.expect(EmpSalary).to.be.greaterThan(0);\r\n});\r\n\r\npm.test(\"TC27 -  Employee Salary is not Null\",()=>{\r\n    pm.expect (EmpSalary).to.not.be.null;\r\n});\r\n\r\npm.test(\"TC28 - Employee creation is successful\", function () {\r\n    pm.expect(jsonData.message).to.eql(\"Employee created successfully\");\r\n});\r\n\r\n"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "//for random phone//\r\nlet prefix='0181'\r\nlet randomNumber=Math.round (Math.random()*9999999);\r\nlet Phone=prefix+randomNumber;\r\nconsole.log(Phone)\r\npm.environment.set(\"EmployPhone\", Phone);\r\n\r\n//for random department//\r\nlet departmentName=[\"HR\",\"IT\",\"Account\",\"Marketing\",\"Sales\"]\r\nlet randomDept = Math.floor(Math.random() * departmentName.length);\r\nlet chooseDeparment=departmentName[randomDept]\r\nconsole.log(randomDept)\r\npm.environment.set(\"EmployDept\", chooseDeparment)\r\n\r\n//for random position//\r\nlet EmployePosition=[\"HR Executive\",\"QA Engineer\",\"Finance Officer\",\"Digital Marketing Executive\",\"Sales Executive\"]\r\nlet randomPos = Math.floor(Math.random() * EmployePosition.length);\r\nlet choosePosition = EmployePosition[randomPos]\r\nconsole.log(randomPos)\r\npm.environment.set(\"EmployPos\", choosePosition)\r\n\r\n\r\n//for salary//\r\nlet salary = Math.floor(Math.random() * 100000) + 20000;\r\npm.environment.set(\"EmploySalary\", salary)\r\n\r\n\r\n\r\n\r\n\r\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{Emptoken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomFirstName}}@company.com\",\r\n    \"phone\": \"{{EmployPhone}}\",\r\n    \"department\": \"{{EmployDept}}\",\r\n    \"position\": \"{{EmployPos}}\",\r\n    \"salary\": {{EmploySalary}},\r\n    \"hireDate\": \"2022-01-15\",\r\n    \"status\": \"active\",\r\n    \"createdAt\": \"2022-01-15T09:00:00Z\",\r\n    \"updatedAt\": \"2022-01-15T09:00:00Z\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://crudapi-o7rr.onrender.com/api/employees",
+          "protocol": "https",
+          "host": [
+            "crudapi-o7rr",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "employees"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetEmployeeInfo",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{Emptoken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://crudapi-o7rr.onrender.com/api/employees/{{EmployeeId}}",
+          "protocol": "https",
+          "host": [
+            "crudapi-o7rr",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "employees",
+            "{{EmployeeId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateEmployeeInfo",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "let jsondata = pm.response.json();\n\nlet ModifyPhone = jsondata.data.phone;\nlet ModifyPosition = jsondata.data.position;\n\npm.environment.set(\"ModifyPhone\", ModifyPhone);\npm.environment.set(\"ModifyPosition\", ModifyPosition);\n\npm.test(\"TC30 - Check if the phone number is updated\", function () {\n    pm.expect(jsondata.data.phone).to.eql(pm.environment.get(\"ModifyPhone\"));\n});\n\npm.test(\"TC31 - Check if the position is updated\", function () {\n    pm.expect(jsondata.data.position).to.eql(pm.environment.get(\"ModifyPosition\"));\n});\n\npm.test(\"TC32 - Check if the phone number and position updated\", function () {\n    pm.expect(jsondata.message).to.eql(\"Employee updated successfully\")\n});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "//for random phone//\r\nlet prefix='0181'\r\nlet randomNumber=Math.round (Math.random()*9999999);\r\nlet Phone=prefix+randomNumber;\r\nconsole.log(Phone)\r\npm.environment.set(\"Modifyphone\", Phone);\r\n\r\n//for random position//\r\nlet EmployePosition=[\"Recruitment Officer\",\"Software Engineer\",\"Accounts Assistant\",\"SEO Specialist\",\"Business Development Executive\"]\r\nlet randomPos = Math.floor(Math.random() * EmployePosition.length);\r\nlet choosePosition = EmployePosition[randomPos]\r\nconsole.log(randomPos)\r\npm.environment.set(\"ModifyPosition\", choosePosition)"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{Emptoken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"phone\": \"{{Modifyphone}}\",\r\n    \"position\": \"{{ModifyPosition}}\"\r\n\r\n\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://crudapi-o7rr.onrender.com/api/employees/{{EmployeeId}}",
+          "protocol": "https",
+          "host": [
+            "crudapi-o7rr",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "employees",
+            "{{EmployeeId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetAllEmployeInfo",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "let jsonData = pm.response.json();\r\n\r\npm.test(\"TC29 - Employee Data Checking\",()=>{\r\npm.expect(jsonData.message).to.eql(\"Employees fetched successfully\")\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{Emptoken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://crudapi-o7rr.onrender.com/api/employees?limit=30",
+          "protocol": "https",
+          "host": [
+            "crudapi-o7rr",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "employees"
+          ],
+          "query": [
+            {
+              "key": "limit",
+              "value": "30"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetEmployeWithQueryParameter",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{Emptoken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://crudapi-o7rr.onrender.com/api/employees?email=Estel@company.com&phone=01815306477",
+          "protocol": "https",
+          "host": [
+            "crudapi-o7rr",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "employees"
+          ],
+          "query": [
+            {
+              "key": "email",
+              "value": "Estel@company.com"
+            },
+            {
+              "key": "phone",
+              "value": "01815306477"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteEmploye",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{Emptoken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "https://crudapi-o7rr.onrender.com/api/employees/{{EmployeeId}}?permanent=true",
+          "protocol": "https",
+          "host": [
+            "crudapi-o7rr",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "employees",
+            "{{EmployeeId}}"
+          ],
+          "query": [
+            {
+              "key": "permanent",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "json_web_token_1dgi",
+      "secret": true
+    }
+  ]
+}
