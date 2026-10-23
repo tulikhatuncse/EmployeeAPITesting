@@ -38,6 +38,9 @@ npx newman run [collection] -e["enviornment"]
 node .\report.j
 ```
 
+## Newman Report
+
+<img width="742" height="752" alt="Newman report ff" src="https://github.com/user-attachments/assets/56e07e70-9a9b-48b7-a8ad-f4686d0385b7" />
 
 
 
