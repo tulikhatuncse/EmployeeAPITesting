@@ -14,9 +14,9 @@ The project uses dynamic/random test data, JavaScript assertions, Postman enviro
 -node.js
 
 ## API Documentation [Employee API Documentation](https://documenter.getpostman.com/view/25436819/2sBYHUReyX)
-## Bug report in Jira [5 bug report in Jira] (https://tuli11.atlassian.net/?continue=https%3A%2F%2Ftuli11.atlassian.net%2Fwelcome%2Fsoftware%3FprojectId%3D10067&atlOrigin=eyJpIjoiOWZhOTA5NWYwMWQ3NDExOWE0NGQxODI0MGVmYzRkYzUiLCJwIjoiamlyYS1zb2Z0d2FyZSJ9)
+## Bug report in Jira [5 bug report in Jira](https://tuli11.atlassian.net/?continue=https%3A%2F%2Ftuli11.atlassian.net%2Fwelcome%2Fsoftware%3FprojectId%3D10067&atlOrigin=eyJpIjoiOWZhOTA5NWYwMWQ3NDExOWE0NGQxODI0MGVmYzRkYzUiLCJwIjoiamlyYS1zb2Z0d2FyZSJ9)
 
-## Or Bug report in Jira [5 bug report] (https://tuli11.atlassian.net/jira/software/projects/EM/boards/68?filter=&groupBy=none&atlOrigin=eyJpIjoiMTJiZWI5ZjlkYmVjNGMwNGI2NTdiYmU1YjUyNjMwNzciLCJwIjoiaiJ9)
+## Or Bug report in Jira [5 bug report](https://tuli11.atlassian.net/jira/software/projects/EM/boards/68?filter=&groupBy=none&atlOrigin=eyJpIjoiMTJiZWI5ZjlkYmVjNGMwNGI2NTdiYmU1YjUyNjMwNzciLCJwIjoiaiJ9)
 
 ## How to Run this Project
 ```Clone this Project```
